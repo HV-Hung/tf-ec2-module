@@ -1,7 +1,7 @@
 data "aws_partition" "current" {}
 
 locals {
-  security_group_ids = flatten([var.vpc_security_group_ids != null ? var.vpc_security_group_ids : [], aws_security_group.this[0].id != null ? [aws_security_group.this[0].id] : []])
+  security_group_ids = flatten([var.vpc_security_group_ids != null ? var.vpc_security_group_ids : [], try(aws_security_group.this[0].id, null) != null ? [aws_security_group.this[0].id] : []])
 }
 
 ################################################################################
