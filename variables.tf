@@ -169,7 +169,7 @@ variable "vpc_id" {
   default     = null
 }
 
-variable "custom_tags" {
+variable "general_tags" {
   description = "A mapping of tags to assign to the resource"
   type        = map(string)
   default     = {}

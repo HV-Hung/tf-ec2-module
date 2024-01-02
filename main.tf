@@ -49,7 +49,7 @@ resource "aws_instance" "this" {
   tenancy                              = var.tenancy
   host_id                              = var.host_id
 
-  tags        = merge({ "Name" = var.name }, var.instance_tags, var.custom_tags)
+  tags        = merge({ "Name" = var.name }, var.instance_tags, var.general_tags)
   volume_tags = var.enable_volume_tags ? merge({ "Name" = var.name }, var.volume_tags) : null
   lifecycle {
     ignore_changes = [
@@ -101,7 +101,7 @@ resource "aws_security_group" "this" {
 
   }
 
-  tags = merge({ "Name" = "${var.name}-sg" }, var.instance_tags, var.custom_tags)
+  tags = merge({ "Name" = "${var.name}-sg" }, var.instance_tags, var.general_tags)
 }
 ################################################################################
 # Key pair
@@ -148,7 +148,7 @@ resource "aws_iam_role" "this" {
   permissions_boundary  = var.iam_role_permissions_boundary
   force_detach_policies = true
 
-  tags = merge(var.custom_tags, var.iam_role_tags)
+  tags = merge(var.general_tags, var.iam_role_tags)
 }
 
 resource "aws_iam_role_policy_attachment" "this" {
@@ -167,7 +167,7 @@ resource "aws_iam_instance_profile" "this" {
   name_prefix = var.iam_role_use_name_prefix ? "${local.iam_role_name}-" : null
   path        = var.iam_role_path
 
-  tags = merge(var.custom_tags, var.iam_role_tags)
+  tags = merge(var.general_tags, var.iam_role_tags)
 
   lifecycle {
     create_before_destroy = true
